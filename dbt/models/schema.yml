@@ -1,0 +1,98 @@
+version: 2
+
+models:
+  - name: stg_employees
+    description: "Cleaned employee records from Bronze layer"
+    columns:
+      - name: employee_id
+        description: "Unique employee identifier"
+        data_tests:
+          - unique
+          - not_null
+
+      - name: first_name
+        data_tests:
+          - not_null
+
+      - name: last_name
+        data_tests:
+          - not_null
+
+      - name: employment_status
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['active', 'terminated']
+
+  - name: stg_departments
+    description: "Cleaned organizational departments"
+    columns:
+      - name: department_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: department_name
+        data_tests:
+          - not_null
+
+  - name: stg_positions
+    description: "Cleaned employee positions"
+    columns:
+      - name: position_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: position_name
+        data_tests:
+          - not_null
+
+  - name: stg_employment_history
+    description: "Employee employment history"
+    columns:
+      - name: history_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: employee_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_employees')
+                field: employee_id
+
+      - name: department_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_departments')
+                field: department_id
+
+      - name: position_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_positions')
+                field: position_id
+
+  - name: stg_employee_events
+    description: "Employee lifecycle events"
+    columns:
+      - name: event_id
+        data_tests:
+          - unique
+          - not_null
+
+      - name: employee_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_employees')
+                field: employee_id

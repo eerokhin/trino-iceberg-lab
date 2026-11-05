@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: bronze
+    database: iceberg
+    schema: bronze
+    tables:
+      - name: employees
+      - name: departments
+      - name: positions
+      - name: employment_history
+      - name: employee_events

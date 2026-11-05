@@ -2,7 +2,7 @@ name: trino_iceberg_lab
 version: '1.0.0'
 config-version: 2
 
-profile: trino_iceberg_lab
+profile: hr_dbt
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -18,3 +18,11 @@ clean-targets:
 models:
   trino_iceberg_lab:
     +materialized: view
+
+    silver:
+      +schema: silver
+      +materialized: table
+
+    gold:
+      +schema: gold
+      +materialized: table
